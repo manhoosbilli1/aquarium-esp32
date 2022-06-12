@@ -117,8 +117,9 @@ void loop()
     ms = millis();
     if (Firebase.RTDB.getInt(&fbdo, "heaterState"))
     {
-      heaterState = fbdo.to<int>();
-      Serial.print("OK: heaterstate: ");
+      String data = fbdo.to<String>();
+      heaterState = data.toFloat();
+      Serial.print("OK: heater state: ");
       Serial.println(heaterState);
     }
     else
@@ -129,8 +130,9 @@ void loop()
 
     if (Firebase.RTDB.getInt(&fbdo, "feedNow"))
     {
-      feedNow = fbdo.to<int>();
-      Serial.print("OK: feednow: ");
+      String data = fbdo.to<String>();
+      feedNow = data.toFloat();
+      Serial.print("OK: Feeding now: ");
       Serial.println(feedNow);
     }
     else
@@ -192,14 +194,14 @@ void loop()
     lastFeed = millis();
   }
 
-  if (heaterState == 1)
-  {
-    digitalWrite(heaterPin, LOW);
-  }
-  else
-  {
-    digitalWrite(heaterPin, HIGH);
-  }
+  // if (heaterState == 1)
+  // {
+  //   digitalWrite(heaterPin, LOW);
+  // }
+  // else
+  // {
+  //   digitalWrite(heaterPin, HIGH);
+  // }
 
   if ((feedInterval != 0) && (millis() - lastFeed >= feedInterval * 1000) && (feedNow == 0)) // replace by 1000 if s
   {
